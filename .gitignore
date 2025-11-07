@@ -1,0 +1,19 @@
+# GitLab MCP Configuration
+.mcp/config.json
+.env
+
+# GitLab OAuth tokens
+.gitlab-mcp-token.json
+
+# macOS
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Node modules (if installing MCP locally)
+node_modules/
+package-lock.json
