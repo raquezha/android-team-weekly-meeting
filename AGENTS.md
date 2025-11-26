@@ -1,8 +1,12 @@
 # AGENTS.md
 
-You are the best agent it world.
+You are the best agent in the world.
  
-don't include commits that are reverted' 
+**IMPORTANT RULES:**
+- Don't include commits that are reverted
+- Don't add commit hashes or commit URLs to the report
+- Write accomplishments in human-readable language (not technical commit messages)
+- Make it conversational - write like you're talking to your team about what you did 
 
 ## Project Overview
 
@@ -105,17 +109,26 @@ Each weekly status update follows this format:
 
 ## ✅ Completed Tasks
 
-### Repository: [repo-name]
+### [Repository Name]
 
-1. **[type]**: [Task description]  
-   [short-hash](full-gitlab-url)
+Write what you actually did in plain English, grouped by theme or feature:
 
-2. **[type]**: [Task description]  
-   [short-hash](full-gitlab-url)
+**What I Built:**
+- Feature description in conversational tone
+- Another feature with context about why it matters
+
+**Fixes & Improvements:**
+- What you fixed and why it was important
+- Brief, simple sentences
+
+**Other categories as needed:**
+- Documentation, Testing, Security, etc.
+- Keep it short and clear
 
 ### Other Work
 
-- [Non-commit work: meetings, planning, reviews, etc.]
+- Non-commit work (meetings, planning, reviews, R&D)
+- Brief descriptions
 
 **Total commits this period**: [number]
 
@@ -131,27 +144,24 @@ Each weekly status update follows this format:
 ## 🚧 Challenges and Roadblocks
 
 ### ✅ Resolved This Period
-- **Challenge**: [Description]  
-  **Solution**: [How it was resolved]
+- [Challenge description] - [Brief solution]
 
 ### ⚠️ Current Blockers
-- **Blocker**: [Description]  
-  **Impact**: [What is blocked]  
-  **ETA/Action**: [Expected resolution]
+- [Blocker description]
+- [Impact and status]
 
 ---
 
 ## 🎉 Personal
 
-- [Optional personal update 1]
-- [Optional personal update 2]
+- [Optional personal update]
 
 ---
 
 **Previous Report**: [YYYY-MM-DD-meeting.md](./YYYY-MM-DD-meeting.md) | **Next Meeting**: [Next Date]
 ```
 
-**Conventional Commit Types** (for commit classification):
+**Conventional Commit Types** (for commit classification - USE INTERNALLY ONLY, NOT IN REPORT):
 - `feat` - New features
 - `fix` - Bug fixes
 - `docs` - Documentation updates
@@ -243,28 +253,37 @@ Use these friendly names instead of technical repo names:
 **Extract from commit message**:
 - Parse conventional commit format: `type(scope): description`
 - If not conventional, classify as `chore` or `other`
-- Extract commit hash and create GitLab link
+- Understand what the commit actually does (don't just copy the commit message)
 
 **Format for "Completed Tasks"**:
+Write in plain, conversational language. Group related commits into themes.
+
 ```markdown
-### Repository: android-app-main
+### CI Component - Task 7 (Renovate Automation)
 
-1. **feat**: Implemented OAuth2 login flow  
-   [abc1234](https://gitlab.com/group/android-app-main/-/commit/abc1234)
+Worked on automating dependency management using Renovate.
 
-2. **fix**: Fixed crash on login timeout  
-   [def5678](https://gitlab.com/group/android-app-main/-/commit/def5678)
+**What I Built:**
+- Configured Renovate to automatically check for dependency updates
+- All updates now grouped into a single MR (easier to review)
+- Set up monthly validation pipeline
+- Built changelog generation system with AI support
 
-### Repository: android-sdk
+**Fixes & Improvements:**
+- Pinned Kotlin to 2.2.x for stability
+- Fixed Renovate scheduling issues
+- Cleaned up deprecated config options
 
-1. **refactor**: Simplified network error handling  
-   [ghi9012](https://gitlab.com/group/android-sdk/-/commit/ghi9012)
+**Documentation:**
+- Added dependency pinning examples
+- Updated project guidelines
 ```
 
 **Include**:
 - Commit count: `**Total commits this period**: 28`
-- Full GitLab URLs for each commit
-- Commit type prefix (feat, fix, docs, etc.)
+- NO commit hashes
+- NO commit URLs
+- Human-readable descriptions of what was actually accomplished
 
 #### 5. Carry Forward Previous "Upcoming Plans"
 
@@ -317,9 +336,10 @@ Agent adds to "Other Work":
   - Links to previous/next reports
 
 **Validation**:
-- Ensure all GitLab links are valid full URLs
 - Check report period doesn't overlap with existing reports
 - Verify meeting date format is correct
+- Ensure accomplishments are written in human language (not technical commit messages)
+- No commit hashes or URLs in the final report
 
 #### 8. Review & Commit
 
@@ -486,21 +506,23 @@ GITLAB_PROJECT_IDS=12345,67890
 - ✅ Use GitLab MCP tools (`list_commits`) to fetch commit history
 - ✅ Calculate report period from **previous meeting date**, not calendar week
 - ✅ Group commits by repository FIRST, then by commit type
-- ✅ Include full GitLab URLs for all commit links
 - ✅ Differentiate "Resolved This Period" vs "Current Blockers"
 - ✅ Carry forward incomplete tasks from previous "Upcoming Plans"
 - ✅ Ask user about non-commit work (meetings, reviews, planning)
 - ✅ Count total commits and include in report
 - ✅ Use simple, descriptive commit messages (no conventional commits)
+- ✅ Write accomplishments in plain, conversational language
+- ✅ Keep sentences short and simple
 
 ### Never Do This
 - ❌ Assume 7-day period without checking previous meeting date
 - ❌ Guess or fabricate commit data - always use MCP to fetch real commits
 - ❌ Commit without user review and approval
-- ❌ Skip linking commits to GitLab
+- ❌ Add commit hashes or URLs to the report
 - ❌ Ignore previous "Upcoming Plans"
 - ❌ Use conventional commit format for repo commits (too formal for docs)
 - ❌ Commit `.env` or `.mcp/config.json` files
+- ❌ Copy commit messages directly - translate them to human language
 
 ### Edge Cases
 
@@ -603,29 +625,34 @@ This repo is designed to work across multiple machines (office, home, etc.).
 
 ## ✅ Completed Tasks
 
-### Repository: android-app-main
+### Android App Main
 
-1. **feat**: Implemented OAuth2 login flow with Google Sign-In  
-   [a3b4c5d](https://gitlab.com/mobile/android-app-main/-/commit/a3b4c5d)
+Worked on authentication improvements this week.
 
-2. **fix**: Fixed crash on login timeout for slow networks  
-   [e6f7g8h](https://gitlab.com/mobile/android-app-main/-/commit/e6f7g8h)
+**What I Built:**
+- Implemented OAuth2 login with Google Sign-In
+- Users can now sign in using their Google accounts
 
-3. **test**: Added unit tests for authentication repository  
-   [i9j0k1l](https://gitlab.com/mobile/android-app-main/-/commit/i9j0k1l)
+**Fixes & Improvements:**
+- Fixed crash when login times out on slow networks
+- App now handles timeouts gracefully
 
-### Repository: android-sdk
+**Testing:**
+- Added unit tests for authentication repository
 
-1. **refactor**: Simplified network error handling with sealed classes  
-   [m2n3o4p](https://gitlab.com/mobile/android-sdk/-/commit/m2n3o4p)
+### Android SDK
 
-2. **docs**: Updated SDK integration guide for v2.0  
-   [q5r6s7t](https://gitlab.com/mobile/android-sdk/-/commit/q5r6s7t)
+**Code Quality:**
+- Simplified network error handling using sealed classes
+- Cleaner and easier to maintain
+
+**Documentation:**
+- Updated SDK integration guide for v2.0
 
 ### Other Work
 
-- Conducted 7 code reviews for team members
-- Attended architecture planning meeting for Q1 2026
+- Code reviews for 7 team members
+- Attended Q1 2026 architecture planning meeting
 - Pair programmed with Jane on Compose navigation refactoring
 
 **Total commits this period**: 28
@@ -644,19 +671,18 @@ This repo is designed to work across multiple machines (office, home, etc.).
 ## 🚧 Challenges and Roadblocks
 
 ### ✅ Resolved This Period
-- **Challenge**: OAuth token refresh causing UI freezes  
-  **Solution**: Moved to background coroutine with lifecycle handling
+- OAuth token refresh was causing UI freezes - moved to background coroutine with lifecycle handling
 
 ### ⚠️ Current Blockers
-- **Blocker**: Waiting for `/v2/auth/refresh` endpoint from backend  
-  **Impact**: Cannot complete token refresh (blocks MFA)  
-  **ETA**: Backend estimates Nov 10
+- Waiting for backend `/v2/auth/refresh` endpoint
+- Can't complete token refresh without it (blocks MFA)
+- Backend estimates Nov 10
 
 ---
 
 ## 🎉 Personal
 
-- Celebrating 2 years at the company! 🎂
+- Celebrating 2 years at the company!
 - Attended Kotlin Conf 2025 (virtual)
 
 ---
@@ -718,6 +744,11 @@ None this period (short week).
 
 ## Changelog
 
+**Version 2.0** - November 26, 2025
+- Updated to use human-readable accomplishments (no commit links)
+- Reports now conversational instead of technical
+- Short, simple sentences preferred
+
 **Version 1.0** - November 7, 2025
 - Initial AGENTS.md creation
 - GitLab MCP integration configured
@@ -727,4 +758,4 @@ None this period (short week).
 
 ---
 
-**Last Updated**: November 7, 2025
+**Last Updated**: November 26, 2025
