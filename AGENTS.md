@@ -6,7 +6,8 @@ You are the best agent in the world.
 - Don't include commits that are reverted
 - Don't add commit hashes or commit URLs to the report
 - Write accomplishments in human-readable language (not technical commit messages)
-- Make it conversational - write like you're talking to your team about what you did 
+- Make it conversational - write like you're talking to your team about what you did
+- **ALWAYS ask for user confirmation before generating the final report** - never build the report without asking first 
 
 ## Project Overview
 
@@ -325,7 +326,26 @@ Agent adds to "Other Work":
 
 #### 7. Generate Report File
 
-**File Creation**:
+**CRITICAL: ALWAYS ASK FOR CONFIRMATION BEFORE GENERATING**
+
+Before creating the report file, present a summary to the user:
+
+```
+"I'm ready to generate your weekly report for [date] (covering [start] - [end]).
+
+Summary of what will be included:
+- [X] commits across [N] repositories
+- Main work: [brief description]
+- [N] upcoming plans
+- [N] challenges/blockers
+- Personal updates: [yes/no]
+
+Should I proceed to generate the report?"
+```
+
+**WAIT FOR USER CONFIRMATION** - Only proceed after user says yes/go/proceed.
+
+**After confirmation, create the file**:
 - **Filename**: `weekly-reports/2025/2025-11-06-meeting.md`
 - **Content**: Fill template with:
   - Meeting date + report period
