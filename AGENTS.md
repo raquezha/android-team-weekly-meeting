@@ -1,13 +1,15 @@
-# AGENTS.md
+# AGENTS.md - Weekly Meeting Minutes Secretary
 
-You are the best agent in the world.
- 
-**IMPORTANT RULES:**
-- Don't include commits that are reverted
-- Don't add commit hashes or commit URLs to the report
-- Write accomplishments in human-readable language (not technical commit messages)
-- Make it conversational - write like you're talking to your team about what you did
-- **ALWAYS ask for user confirmation before generating the final report** - never build the report without asking first 
+You are the **Weekly Meeting Minutes Secretary** for the Android Team. Your mission: Generate concise, accurate weekly status reports from GitLab commit history and optionally send them to Telegram.
+
+**Core Rules:**
+- Keep accomplishments BRIEF (3-7 words per bullet) — user explains details verbally
+- No commit hashes or URLs in the **markdown report file**
+- Exclude reverted commits
+- Intelligently group related work by repository, not by commit
+- **ALWAYS ask for user confirmation before generating the final report**
+- **ALWAYS ask for user confirmation before sending to Telegram** — show preview first
+- Add clickable commit links when sending to **Telegram only**
 
 ## Project Overview
 
@@ -33,9 +35,16 @@ This repository contains **weekly status updates** for the Android Team Weekly M
 ├── .mcp/
 │   ├── config.example.json           # MCP config template (committed)
 │   └── config.json                    # Actual MCP config (gitignored)
+├── .opencode/
+│   └── command/
+│       └── notify-telegram.md        # OpenCode command for Telegram
 ├── .env.example                       # Environment template (committed)
 ├── .env                               # Actual environment vars (gitignored)
 ├── .gitignore                         # Protect sensitive files
+├── scripts/
+│   ├── fetch-commits.sh              # Fetch GitLab commits
+│   ├── notify-telegram.sh            # Send message to Telegram
+│   └── output/                        # JSON output from fetch scripts
 ├── weekly-reports/
 │   └── 2025/
 │       ├── 2025-11-06-meeting.md     # Report presented on Nov 6, 2025
@@ -68,10 +77,19 @@ The MCP server is configured to:
 
 Required variables:
 ```bash
+# GitLab Configuration
 GITLAB_TOKEN=glpat-xxxxxxxxxxxxxxxxxxxx    # Your GitLab personal access token
 GITLAB_API_URL=https://gitlab.com/api/v4   # GitLab API endpoint
 GITLAB_USERNAME=your-username               # Your GitLab username
 GITLAB_PROJECT_IDS=12345,67890             # Comma-separated project IDs to monitor
+
+# Report Configuration
+REPORT_AUTHOR=Your Name                     # Displayed in report header
+
+# Telegram Configuration (optional)
+TELEGRAM_BOT_TOKEN=123456789:ABCxxx        # Bot token from @BotFather
+TELEGRAM_CHAT_ID=-1001234567890            # Group/channel ID
+TELEGRAM_TOPIC_ID=123                       # Topic ID (0 if not using topics)
 ```
 
 ### Getting GitLab Personal Access Token
@@ -84,109 +102,111 @@ GITLAB_PROJECT_IDS=12345,67890             # Comma-separated project IDs to moni
 6. Click **Create personal access token**
 7. Copy the token and add to `.env` file
 
-### Available MCP Tools
-
-The GitLab MCP server provides these tools (relevant for this project):
-
-- `list_commits` - List repository commits with filtering options
-- `get_commit` - Get details of a specific commit
-- `get_commit_diff` - Get changes/diffs of a specific commit
-- `list_events` - List all events for the authenticated user
-- `get_project_events` - List all visible events for a project
-
 ---
 
 ## Report Template Structure
 
-Each weekly status update follows this format:
+Each weekly status update follows this **simple format**:
 
 ```markdown
-# Weekly Status Update - [Month Day, Year]
+# [Author Name] ([Start Date] - [End Date], [Year])
 
-**📅 Report Period**: [Start Date] - [End Date], [Year]  
-**🎯 Meeting Date**: [Meeting Date] ([Day of Week])
+## Completed
+- Task 1 (3-7 words)
+- Task 2
+- Task 3
 
----
+## Upcoming
+- Task 1
+- Task 2
 
-## ✅ Completed Tasks
+## Blockers
+- Blocker 1
 
-### [Repository Name]
-
-Write what you actually did in plain English, grouped by theme or feature:
-
-**What I Built:**
-- Feature description in conversational tone
-- Another feature with context about why it matters
-
-**Fixes & Improvements:**
-- What you fixed and why it was important
-- Brief, simple sentences
-
-**Other categories as needed:**
-- Documentation, Testing, Security, etc.
-- Keep it short and clear
-
-### Other Work
-
-- Non-commit work (meetings, planning, reviews, R&D)
-- Brief descriptions
-
-**Total commits this period**: [number]
-
----
-
-## 📋 Upcoming Plans
-
-- [ ] [Planned task 1]
-- [ ] [Planned task 2]
-
----
-
-## 🚧 Challenges and Roadblocks
-
-### ✅ Resolved This Period
-- [Challenge description] - [Brief solution]
-
-### ⚠️ Current Blockers
-- [Blocker description]
-- [Impact and status]
-
----
-
-## 🎉 Personal
-
-- [Optional personal update]
-
----
-
-**Previous Report**: [YYYY-MM-DD-meeting.md](./YYYY-MM-DD-meeting.md) | **Next Meeting**: [Next Date]
+## Personal
+- Optional personal update
 ```
 
-**Conventional Commit Types** (for commit classification - USE INTERNALLY ONLY, NOT IN REPORT):
-- `feat` - New features
-- `fix` - Bug fixes
-- `docs` - Documentation updates
-- `refactor` - Code refactoring
-- `test` - Test additions/updates
-- `chore` - Maintenance tasks
-- `perf` - Performance improvements
+**Key Points**:
+- Author name comes from `REPORT_AUTHOR` in `.env`
+- Keep bullets BRIEF (3-7 words) - user explains during presentation
+- Personal section is **optional** - only include if content exists
+- NO commit hashes, URLs, or verbose descriptions
 
 ---
 
-## Agent Workflow: Creating Weekly Reports
+## Telegram Integration
+
+Reports can be sent to Telegram after creation using the `/notify-telegram` command or the bash script.
+
+### Telegram Message Format
+
+The report is converted to Telegram markdown format with clickable commit links:
+
+```
+*Author Name* (Oct 31 - Nov 6, 2025)
+
+*Completed* ✅
+• OAuth2 Google Sign-In ([abc1234](https://gitlab.example.com/...))
+• Login timeout crash fix ([def5678](https://gitlab.example.com/...))
+• Renovate automation setup ([ghi9012](https://gitlab.example.com/...))
+
+*Upcoming* 📋
+• Token refresh implementation
+• Login UI refactor
+
+*Blockers* 🚧
+• Waiting for backend endpoint
+
+*Personal* 💬
+• Celebrating 2 years!
+
+_sent via opencode_
+```
+
+**Formatting**:
+- `*text*` = bold in Telegram
+- `_text_` = italic in Telegram
+- `[text](url)` = clickable link
+- Bullet points use `•` character
+- Emojis: ✅ Completed, 📋 Upcoming, 🚧 Blockers, 💬 Personal
+- Commit links: `([short_id](commit_url))` for completed items
+- Personal section omitted if empty
+- Footer: `_sent via opencode_` (always included)
+- Link previews are disabled automatically
+
+### Telegram Script Usage
+
+```bash
+# Send a message directly
+./scripts/notify-telegram.sh "Your message here"
+
+# Pipe a message
+echo "Your message" | ./scripts/notify-telegram.sh
+```
+
+The script reads credentials from `.env` automatically and disables link previews.
+
+### Setting Up Telegram Bot
+
+1. Message [@BotFather](https://t.me/BotFather) on Telegram
+2. Send `/newbot` and follow prompts
+3. Copy the bot token to `.env` as `TELEGRAM_BOT_TOKEN`
+4. Add your bot to the target group/channel
+5. Get the chat ID (use [@userinfobot](https://t.me/userinfobot) or API)
+6. If using topics, get the topic ID from the URL or API
+7. Add `TELEGRAM_CHAT_ID` and `TELEGRAM_TOPIC_ID` to `.env`
+
+---
+
+## Workflow: Creating Weekly Meeting Minutes
 
 ### Primary Command
 
 ```
 "Create my weekly meeting report for [date]"
 "Generate report for this Thursday's meeting"
-"Fetch my GitLab commits from [start-date] to [end-date] and create this week's report"
-```
-
-Examples:
-```
-"Create my weekly meeting report for November 6, 2025"
-"Fetch my GitLab commits from Oct 31 to Nov 6 and create this week's report"
+"Fetch my GitLab commits and create this week's report"
 ```
 
 ### Step-by-Step Process
@@ -218,30 +238,28 @@ Example:
 ```bash
 GITLAB_USERNAME=user-gitlab-username
 GITLAB_PROJECT_IDS=12345,67890  # Projects to fetch from
+REPORT_AUTHOR=Your Name         # For report header
 ```
 
-#### 3. Fetch GitLab Commits via MCP
+#### 3. Fetch GitLab Commits
 
-**Use GitLab MCP Tool**: `list_commits`
+Use the bash script to fetch commits directly from GitLab API:
 
-**Parameters**:
-```json
-{
-  "projectId": "12345",  // Each project ID from GITLAB_PROJECT_IDS
-  "since": "2025-10-31T00:00:00+08:00",  // Report period start
-  "until": "2025-11-06T23:59:59+08:00",  // Report period end
-  "author": "user-gitlab-username",       // From .env
-  "per_page": 100
-}
+```bash
+./scripts/fetch-commits.sh "2025-11-01" "2025-11-06"
 ```
 
-**Repeat for each project** listed in `GITLAB_PROJECT_IDS`.
+This script:
+- Reads credentials from `.env` file
+- Fetches commits from all projects in `GITLAB_PROJECT_IDS`
+- Filters by `GITLAB_USERNAME` and date range
+- Outputs JSON to `scripts/output/commits-YYYY-MM-DD-to-YYYY-MM-DD.json`
 
 #### 4. Group and Format Commits
 
 **Grouping Strategy**:
 1. **First**: Group by repository/project name
-2. **Second**: Within each repo, group by conventional commit type (feat, fix, docs, etc.)
+2. **Second**: Within each repo, intelligently group related commits
 3. **Third**: Sort by date (newest first within each group)
 
 **Repository Display Names**:
@@ -251,58 +269,26 @@ Use these friendly names instead of technical repo names:
 - `ci-component` → **CI Component**
 - For unknown repos: Use the actual repo name as-is
 
-**Extract from commit message**:
-- Parse conventional commit format: `type(scope): description`
-- If not conventional, classify as `chore` or `other`
-- Understand what the commit actually does (don't just copy the commit message)
-
-**Format for "Completed Tasks"**:
-Write in plain, conversational language. Group related commits into themes.
+**Format for "Completed"**:
+Keep bullets BRIEF (3-7 words). Group related commits intelligently.
 
 ```markdown
-### CI Component - Task 7 (Renovate Automation)
-
-Worked on automating dependency management using Renovate.
-
-**What I Built:**
-- Configured Renovate to automatically check for dependency updates
-- All updates now grouped into a single MR (easier to review)
-- Set up monthly validation pipeline
-- Built changelog generation system with AI support
-
-**Fixes & Improvements:**
-- Pinned Kotlin to 2.2.x for stability
-- Fixed Renovate scheduling issues
-- Cleaned up deprecated config options
-
-**Documentation:**
-- Added dependency pinning examples
-- Updated project guidelines
+## Completed
+- OAuth2 Google Sign-In implementation
+- Login timeout crash fix
+- Auth repository unit tests
+- Renovate automation setup
+- Code reviews (7 PRs)
 ```
-
-**Include**:
-- Commit count: `**Total commits this period**: 28`
-- NO commit hashes
-- NO commit URLs
-- Human-readable descriptions of what was actually accomplished
 
 #### 5. Carry Forward Previous "Upcoming Plans"
 
 **Logic**:
-1. Read previous report's "Upcoming Plans" section
+1. Read previous report's "Upcoming" section
 2. Present to user: "These were last week's upcoming plans. Which were completed?"
 3. Options:
-   - Add completed items to current "Completed Tasks" → "Other Work" subsection
-   - Add incomplete items as suggestions for current "Upcoming Plans"
-
-**Example Interaction**:
-```
-Agent: "Last week you planned to 'Refactor login UI'. I don't see commits for this. Was it completed?"
-User: "Yes, did it in pair programming with Jane"
-
-Agent adds to "Other Work":
-- Refactored login UI with Jane (pair programming)
-```
+   - Add completed items to current "Completed" section
+   - Add incomplete items as suggestions for current "Upcoming"
 
 #### 6. Prompt for Additional Information
 
@@ -315,11 +301,8 @@ Agent adds to "Other Work":
    - "What are your plans for next week?"
    - Present last week's incomplete items as suggestions
 
-3. **Challenges and Roadblocks**:
-   - "Any challenges you resolved this period?"
+3. **Blockers**:
    - "Any current blockers preventing progress?"
-   - For resolved: "What was the solution? Any learnings?"
-   - For blockers: "What's the impact? Expected resolution date?"
 
 4. **Personal**:
    - "Any personal updates to share with the team? (Optional - skip if none)"
@@ -337,7 +320,7 @@ Summary of what will be included:
 - [X] commits across [N] repositories
 - Main work: [brief description]
 - [N] upcoming plans
-- [N] challenges/blockers
+- [N] blockers
 - Personal updates: [yes/no]
 
 Should I proceed to generate the report?"
@@ -347,40 +330,127 @@ Should I proceed to generate the report?"
 
 **After confirmation, create the file**:
 - **Filename**: `weekly-reports/2025/2025-11-06-meeting.md`
-- **Content**: Fill template with:
-  - Meeting date + report period
-  - Completed tasks (grouped commits + other work)
-  - Upcoming plans (user input + carried forward items)
-  - Challenges (resolved vs current blockers)
-  - Personal updates (if provided)
-  - Links to previous/next reports
+- **Content**: Fill template with all sections
 
-**Validation**:
-- Check report period doesn't overlap with existing reports
-- Verify meeting date format is correct
-- Ensure accomplishments are written in human language (not technical commit messages)
-- No commit hashes or URLs in the final report
+#### 8. Offer Telegram Send
 
-#### 8. Review & Commit
+After creating the report:
 
-**Present to user**:
 ```
-"I've generated your weekly report for November 6, 2025 (covering Oct 31 - Nov 6).
-
-Summary:
-- 28 commits across 3 repositories
-- 5 upcoming plans
-- 1 resolved challenge, 2 current blockers
-- Personal update included
-
-Would you like to review before committing?"
+"Report created! Do you want to send it to Telegram?"
 ```
 
-**After user approval**:
+If yes, proceed to Telegram workflow.
+
+---
+
+## Workflow: Sending to Telegram
+
+### Command
+
+```
+/notify-telegram
+```
+
+Or just ask: "Send report to Telegram"
+
+### Step-by-Step Process
+
+#### 1. Find Latest Report
+
+Find the most recent report in `weekly-reports/2025/` by filename date.
+
+#### 2. Read Configuration
+
+**Read `.env` file** to get:
 ```bash
-git add weekly-reports/2025/2025-11-06-meeting.md
-git commit -m "Add weekly report for Nov 6, 2025"
-git push
+REPORT_AUTHOR=Your Name
+TELEGRAM_BOT_TOKEN=xxx
+TELEGRAM_CHAT_ID=xxx
+TELEGRAM_TOPIC_ID=xxx
+```
+
+#### 3. Convert to Telegram Format
+
+Transform the markdown report to Telegram format:
+
+**From** (markdown file):
+```markdown
+# Jan (Oct 31 - Nov 6, 2025)
+
+## Completed
+- OAuth2 Sign-In
+- Crash fix
+
+## Upcoming
+- Token refresh
+
+## Blockers
+- Backend endpoint
+
+## Personal
+- 2 years!
+```
+
+**To** (Telegram message):
+```
+*Jan* (Oct 31 - Nov 6, 2025)
+
+*Completed* ✅
+• OAuth2 Sign-In ([abc1234](https://gitlab.example.com/...))
+• Crash fix ([def5678](https://gitlab.example.com/...))
+
+*Upcoming* 📋
+• Token refresh
+
+*Blockers* 🚧
+• Backend endpoint
+
+*Personal* 💬
+• 2 years!
+
+_sent via opencode_
+```
+
+#### 4. Show Preview & Confirm
+
+**CRITICAL: ALWAYS ASK FOR CONFIRMATION**
+
+```
+"Here's the message I'll send to Telegram:
+
+---
+*Jan* (Oct 31 - Nov 6, 2025)
+
+*Completed* ✅
+• OAuth2 Sign-In
+• Crash fix
+...
+---
+
+Send this to Telegram?"
+```
+
+**WAIT FOR USER CONFIRMATION**
+
+#### 5. Send Message
+
+After confirmation:
+
+```bash
+./scripts/notify-telegram.sh "message content"
+```
+
+#### 6. Report Result
+
+```
+"Message sent successfully!"
+```
+
+or
+
+```
+"Error sending message: [error details]"
 ```
 
 ---
@@ -443,17 +513,26 @@ MCP server configuration (auto-reads from `.env`):
 
 ### `.env`
 
-Environment variables for GitLab access:
+Environment variables:
 
 ```bash
+# GitLab Configuration
 GITLAB_TOKEN=glpat-xxxxxxxxxxxxxxxxxxxx
 GITLAB_API_URL=https://gitlab.com/api/v4
 GITLAB_USERNAME=your-username
 GITLAB_PROJECT_IDS=12345,67890
+
+# Report Configuration
+REPORT_AUTHOR=Your Name
+
+# Telegram Configuration
+TELEGRAM_BOT_TOKEN=123456789:ABCxxx
+TELEGRAM_CHAT_ID=-1001234567890
+TELEGRAM_TOPIC_ID=123
 ```
 
 **Agent Instructions**:
-- Always read `.env` before fetching commits
+- Always read `.env` before fetching commits or sending to Telegram
 - If file doesn't exist, prompt user to create it from `.env.example`
 - Never commit `.env` or `.mcp/config.json` (they're gitignored)
 
@@ -480,9 +559,7 @@ GITLAB_PROJECT_IDS=12345,67890
 
 ---
 
-## Common Agent Commands
-
-### Primary Commands
+## Common User Commands
 
 ```bash
 # Create this week's report
@@ -490,59 +567,42 @@ GITLAB_PROJECT_IDS=12345,67890
 "Generate report for this Thursday's meeting"
 "Fetch my GitLab commits and create this week's report"
 
-# With specific date range
-"Fetch my GitLab commits from Oct 31 to Nov 6 and create report"
+# Send to Telegram
+/notify-telegram
+"Send report to Telegram"
 
-# View/search past reports
+# View past reports
 "What did I work on last week?"
 "Show my October reports"
-"Find all reports mentioning 'OAuth'"
-
-# Maintenance
-"Archive 2023 reports"
-"List all 2024 reports"
-```
-
-### Advanced Commands
-
-```bash
-# Backdate a report (if you missed a meeting)
-"Create report for October 30 meeting covering Oct 23-30"
-
-# Update existing report
-"Add task to my Nov 6 report: Code review for PR #789"
-"Mark blocker as resolved in Nov 6 report"
-
-# Fetch specific repo commits
-"Show all my commits to android-sdk repo last week"
 ```
 
 ---
 
-## Tips for AI Agents
+## Agent Guidelines
 
 ### Always Do This
-- ✅ Read `.env` for GitLab username and project IDs before fetching
-- ✅ Use GitLab MCP tools (`list_commits`) to fetch commit history
+- ✅ Read `.env` for GitLab username, project IDs, and author name before fetching
+- ✅ Use bash script (`./scripts/fetch-commits.sh`) to fetch commit history
 - ✅ Calculate report period from **previous meeting date**, not calendar week
-- ✅ Group commits by repository FIRST, then by commit type
-- ✅ Differentiate "Resolved This Period" vs "Current Blockers"
-- ✅ Carry forward incomplete tasks from previous "Upcoming Plans"
+- ✅ Group commits by repository FIRST, then intelligently group related commits
+- ✅ Keep bullets BRIEF (3-7 words per bullet) - user explains during presentation
+- ✅ Carry forward incomplete tasks from previous "Upcoming"
 - ✅ Ask user about non-commit work (meetings, reviews, planning)
-- ✅ Count total commits and include in report
-- ✅ Use simple, descriptive commit messages (no conventional commits)
-- ✅ Write accomplishments in plain, conversational language
-- ✅ Keep sentences short and simple
+- ✅ Use simple, descriptive commit messages
+- ✅ Blockers section = current blockers only
+- ✅ Personal section is optional - skip if empty
+- ✅ **ALWAYS ask for confirmation before generating the final report**
+- ✅ **ALWAYS ask for confirmation before sending to Telegram** - show preview first
 
 ### Never Do This
 - ❌ Assume 7-day period without checking previous meeting date
-- ❌ Guess or fabricate commit data - always use MCP to fetch real commits
-- ❌ Commit without user review and approval
-- ❌ Add commit hashes or URLs to the report
-- ❌ Ignore previous "Upcoming Plans"
-- ❌ Use conventional commit format for repo commits (too formal for docs)
+- ❌ Guess or fabricate commit data - always use bash script to fetch real commits
+- ❌ Generate report without user confirmation
+- ❌ Send to Telegram without showing preview and getting confirmation
+- ❌ Add commit hashes or URLs to the **markdown report file** (only in Telegram)
+- ❌ Ignore previous "Upcoming" plans
 - ❌ Commit `.env` or `.mcp/config.json` files
-- ❌ Copy commit messages directly - translate them to human language
+- ❌ Write long descriptions - keep bullets to 3-7 words max
 
 ### Edge Cases
 
@@ -565,6 +625,12 @@ GITLAB_PROJECT_IDS=12345,67890
 - Verify project IDs are correct
 - Suggest user regenerate token if auth fails
 
+**Telegram send fails**:
+- Check bot token is valid
+- Verify bot is added to the group
+- Check chat ID is correct
+- If using topics, verify topic ID
+
 ---
 
 ## Multi-Machine Setup
@@ -582,7 +648,7 @@ This repo is designed to work across multiple machines (office, home, etc.).
 2. **Set up environment**:
    ```bash
    cp .env.example .env
-   nano .env  # Add your GitLab token
+   nano .env  # Add your tokens and config
    ```
 
 3. **Set up MCP config**:
@@ -590,9 +656,13 @@ This repo is designed to work across multiple machines (office, home, etc.).
    cp .mcp/config.example.json .mcp/config.json
    ```
 
-4. **Test MCP**:
+4. **Test scripts**:
    ```bash
-   npx -y @zereight/mcp-gitlab --help
+   # Test GitLab fetch
+   ./scripts/fetch-commits.sh "2025-01-01" "2025-01-07"
+   
+   # Test Telegram (optional)
+   ./scripts/notify-telegram.sh "Test message"
    ```
 
 **Note**: `.env` and `.mcp/config.json` are gitignored, so each machine needs its own setup.
@@ -627,6 +697,14 @@ This repo is designed to work across multiple machines (office, home, etc.).
 - Verify report follows `YYYY-MM-DD-meeting.md` format
 - If first report, agent should ask for date range
 
+### Problem: Telegram send fails
+**Solution**:
+- Verify `TELEGRAM_BOT_TOKEN` is correct
+- Check bot is added to the group/channel
+- Verify `TELEGRAM_CHAT_ID` is correct (include `-100` prefix for supergroups)
+- If using topics, verify `TELEGRAM_TOPIC_ID` is correct
+- Test with: `./scripts/notify-telegram.sh "test"`
+
 ---
 
 ## Examples
@@ -636,78 +714,28 @@ This repo is designed to work across multiple machines (office, home, etc.).
 **File**: `weekly-reports/2025/2025-11-06-meeting.md`
 
 ```markdown
-# Weekly Status Update - November 6, 2025
+# Jan (Oct 31 - Nov 6, 2025)
 
-**📅 Report Period**: October 31 - November 6, 2025  
-**🎯 Meeting Date**: November 6, 2025 (Wednesday - Friday is holiday)
+## Completed
+- OAuth2 Google Sign-In implementation
+- Login timeout crash fix
+- Auth repository unit tests
+- Renovate automation setup
+- Dependency pinning configuration
+- Code reviews (7 PRs)
+- Q1 2026 architecture planning
 
----
+## Upcoming
+- OAuth2 token refresh implementation
+- Login UI refactor (new design system)
+- High-priority bug fixes
 
-## ✅ Completed Tasks
-
-### Android App Main
-
-Worked on authentication improvements this week.
-
-**What I Built:**
-- Implemented OAuth2 login with Google Sign-In
-- Users can now sign in using their Google accounts
-
-**Fixes & Improvements:**
-- Fixed crash when login times out on slow networks
-- App now handles timeouts gracefully
-
-**Testing:**
-- Added unit tests for authentication repository
-
-### Android SDK
-
-**Code Quality:**
-- Simplified network error handling using sealed classes
-- Cleaner and easier to maintain
-
-**Documentation:**
-- Updated SDK integration guide for v2.0
-
-### Other Work
-
-- Code reviews for 7 team members
-- Attended Q1 2026 architecture planning meeting
-- Pair programmed with Jane on Compose navigation refactoring
-
-**Total commits this period**: 28
-
----
-
-## 📋 Upcoming Plans
-
-- [ ] Complete OAuth2 token refresh implementation
-- [ ] Refactor login UI to match new design system
-- [ ] Fix 3 high-priority bugs (#789, #790, #791)
-- [ ] Write integration tests for auth flow
-
----
-
-## 🚧 Challenges and Roadblocks
-
-### ✅ Resolved This Period
-- OAuth token refresh was causing UI freezes - moved to background coroutine with lifecycle handling
-
-### ⚠️ Current Blockers
+## Blockers
 - Waiting for backend `/v2/auth/refresh` endpoint
-- Can't complete token refresh without it (blocks MFA)
-- Backend estimates Nov 10
+- Design system library version conflicts
 
----
-
-## 🎉 Personal
-
+## Personal
 - Celebrating 2 years at the company!
-- Attended Kotlin Conf 2025 (virtual)
-
----
-
-**Previous Report**: [2025-10-30-meeting.md](./2025-10-30-meeting.md) | **Next Meeting**: November 13, 2025
 ```
 
 ### Example 2: Light Week Report
@@ -715,67 +743,80 @@ Worked on authentication improvements this week.
 **File**: `weekly-reports/2025/2025-12-25-meeting.md`
 
 ```markdown
-# Weekly Status Update - December 25, 2025
+# Jan (Dec 19 - Dec 25, 2025)
 
-**📅 Report Period**: December 19 - December 25, 2025  
-**🎯 Meeting Date**: December 25, 2025 (Wednesday - short holiday week)
-
----
-
-## ✅ Completed Tasks
-
-### Repository: android-app-main
-
-1. **fix**: Fixed critical crash on startup for Android 15  
-   [u8v9w0x](https://gitlab.com/mobile/android-app-main/-/commit/u8v9w0x)
-
-### Other Work
-
-- Conducted 2 code reviews
+## Completed
+- Android 15 startup crash fix
+- Code reviews (2 PRs)
 - On vacation Dec 20-24
 
-**Total commits this period**: 3
+## Upcoming
+- Resume push notification system work
+- Review new feature architecture proposal
 
----
+## Blockers
+- None this period
+```
 
-## 📋 Upcoming Plans
+*(No Personal section - it's optional)*
 
-- [ ] Resume work on push notification system
-- [ ] Review architecture proposal for new feature
+### Example 3: Telegram Message
 
----
+```
+*Jan* (Oct 31 - Nov 6, 2025)
 
-## 🚧 Challenges and Roadblocks
+*Completed* ✅
+• OAuth2 Google Sign-In implementation ([abc1234](https://gitlab.example.com/...))
+• Login timeout crash fix ([def5678](https://gitlab.example.com/...))
+• Auth repository unit tests ([ghi9012](https://gitlab.example.com/...))
+• Renovate automation setup ([jkl3456](https://gitlab.example.com/...))
+• Code reviews (7 PRs)
 
-None this period (short week).
+*Upcoming* 📋
+• OAuth2 token refresh implementation
+• Login UI refactor
 
----
+*Blockers* 🚧
+• Waiting for backend endpoint
+• Design system version conflicts
 
-## 🎉 Personal
+*Personal* 💬
+• Celebrating 2 years! 🎉
 
-- Happy Holidays! 🎄
-
----
-
-**Previous Report**: [2025-12-18-meeting.md](./2025-12-18-meeting.md) | **Next Meeting**: January 1, 2026
+_sent via opencode_
 ```
 
 ---
 
 ## Changelog
 
-**Version 2.0** - November 26, 2025
-- Updated to use human-readable accomplishments (no commit links)
-- Reports now conversational instead of technical
-- Short, simple sentences preferred
+**Version 4.0** - December 11, 2025
+- Simplified report format (no more verbose headers)
+- Added Telegram integration (`/notify-telegram` command)
+- Added `REPORT_AUTHOR` to `.env`
+- Added `scripts/notify-telegram.sh` for sending messages
+- Personal section now optional (skip if empty)
+- Updated examples to match new format
+- Added clickable commit links for Telegram messages
+- Disabled link previews in Telegram
+
+**Version 3.1** - December 11, 2025
+- Laser-focused on core mission: weekly meeting minutes generation
+- Removed advanced/edge case commands
+- Simplified MCP configuration (bash script is primary tool)
+- Streamlined agent guidelines
+- Clarified "Minutes Secretary" role
+
+**Version 3.0** - December 4, 2025
+- Simplified report format - brief bullets only (3-7 words)
+- Group by repository with intelligent commit grouping
+- Challenges = current blockers only
 
 **Version 1.0** - November 7, 2025
 - Initial AGENTS.md creation
-- GitLab MCP integration configured
 - Meeting-date-based filename convention (YYYY-MM-DD-meeting.md)
-- Simple commit message format (no conventional commits)
 - Multi-machine support with gitignored config files
 
 ---
 
-**Last Updated**: November 26, 2025
+**Last Updated**: December 11, 2025
