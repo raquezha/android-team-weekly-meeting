@@ -116,6 +116,9 @@ Each weekly status update follows this **simple format**:
 - Task 2
 - Task 3
 
+## Other Work
+- Non-commit work (optional)
+
 ## Upcoming
 - Task 1
 - Task 2
@@ -130,6 +133,7 @@ Each weekly status update follows this **simple format**:
 **Key Points**:
 - Author name comes from `REPORT_AUTHOR` in `.env`
 - Keep bullets BRIEF (3-7 words) - user explains during presentation
+- **Other Work** section is **optional** - for non-commit work (meetings, reviews, creative work)
 - Personal section is **optional** - only include if content exists
 - NO commit hashes, URLs, or verbose descriptions
 
@@ -151,6 +155,10 @@ The report is converted to Telegram markdown format with clickable commit links:
 • Login timeout crash fix ([def5678](https://gitlab.example.com/...))
 • Renovate automation setup ([ghi9012](https://gitlab.example.com/...))
 
+*Other Work* 🎬
+• Code reviews (7 PRs)
+• Architecture planning session
+
 *Upcoming* 📋
 • Token refresh implementation
 • Login UI refactor
@@ -169,7 +177,7 @@ _sent via opencode_
 - `_text_` = italic in Telegram
 - `[text](url)` = clickable link
 - Bullet points use `•` character
-- Emojis: ✅ Completed, 📋 Upcoming, 🚧 Blockers, 💬 Personal
+- Emojis: ✅ Completed, 🎬 Other Work, 📋 Upcoming, 🚧 Blockers, 💬 Personal
 - Commit links: `([short_id](commit_url))` for completed items
 - Personal section omitted if empty
 - Footer: `_sent via opencode_` (always included)
@@ -722,6 +730,8 @@ This repo is designed to work across multiple machines (office, home, etc.).
 - Auth repository unit tests
 - Renovate automation setup
 - Dependency pinning configuration
+
+## Other Work
 - Code reviews (7 PRs)
 - Q1 2026 architecture planning
 
@@ -770,6 +780,8 @@ This repo is designed to work across multiple machines (office, home, etc.).
 • Login timeout crash fix ([def5678](https://gitlab.example.com/...))
 • Auth repository unit tests ([ghi9012](https://gitlab.example.com/...))
 • Renovate automation setup ([jkl3456](https://gitlab.example.com/...))
+
+*Other Work* 🎬
 • Code reviews (7 PRs)
 
 *Upcoming* 📋
@@ -789,6 +801,11 @@ _sent via opencode_
 ---
 
 ## Changelog
+
+**Version 4.1** - December 18, 2025
+- Added "Other Work" section for non-commit work (meetings, reviews, creative work)
+- Added 🎬 emoji for "Other Work" in Telegram messages
+- Updated template and examples to include "Other Work" section
 
 **Version 4.0** - December 11, 2025
 - Simplified report format (no more verbose headers)
@@ -819,4 +836,4 @@ _sent via opencode_
 
 ---
 
-**Last Updated**: December 11, 2025
+**Last Updated**: December 18, 2025

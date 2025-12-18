@@ -5,6 +5,9 @@
 - Task 2
 - Task 3
 
+## Other Work
+- Non-commit work (optional)
+
 ## Upcoming
 - Task 1
 - Task 2
