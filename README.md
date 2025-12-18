@@ -77,10 +77,30 @@ Example:
 ```
 
 The agent will:
-1. Use GitLab MCP to fetch your commits
+1. Use bash script or GitLab MCP to fetch your commits
 2. Group them by repository and type
 3. Generate report using the template
 4. Save to `weekly-reports/2025/YYYY-MM-DD-meeting.md`
+
+### Using Bash Script (Manual)
+
+You can also manually fetch commits and create reports:
+
+```bash
+# Fetch commits for a date range
+./scripts/fetch-commits.sh "2025-11-01" "2025-11-28"
+
+# View commits grouped by project
+jq 'group_by(.project_name) | map({project: .[0].project_name, count: length, commits: map(.title)})' \
+  scripts/output/commits-2025-11-01-to-2025-11-28.json
+```
+
+The script:
+- Reads credentials from `.env` file
+- Fetches commits from all projects in `GITLAB_PROJECT_IDS`
+- Filters by `GITLAB_USERNAME` and date range
+- Outputs to `scripts/output/commits-YYYY-MM-DD-to-YYYY-MM-DD.json`
+- Automatically handles API URL formatting (adds `/api/v4` if missing)
 
 ### Manual Creation
 
@@ -105,6 +125,9 @@ The agent will:
 ├── .mcp/
 │   ├── config.example.json       # MCP config template (committed)
 │   └── config.json                # Your MCP config (gitignored)
+├── scripts/
+│   ├── fetch-commits.sh           # Bash script to fetch GitLab commits
+│   └── output/                    # JSON output from fetch script
 ├── .env.example                   # Environment variables template
 ├── .gitignore                     # Git ignore rules
 ├── AGENTS.md                      # Instructions for AI agents
