@@ -1,0 +1,181 @@
+[
+  {
+    "id": "fb5e15a0a5ae1f6f94f4fb312bd953d2a39da6de",
+    "short_id": "fb5e15a0",
+    "created_at": "2025-12-04T09:27:49.000+08:00",
+    "parent_ids": [
+      "97ff7d4ed7f12aad5fb6b4cba18c241700ef9257",
+      "f709c845d466fcba9bc758f44437afe3a093c8b6"
+    ],
+    "title": "Merge branch 'version-bump' into 'main'",
+    "message": "Merge branch 'version-bump' into 'main'\n\nVersion bump\n\nSee merge request android-team/tindahangtapat/tindahangtapat-delivery-app!42",
+    "author_name": "raquezha",
+    "author_email": "jan@nueca.com.ph",
+    "authored_date": "2025-12-04T09:27:49.000+08:00",
+    "committer_name": "raquezha",
+    "committer_email": "jan@nueca.com.ph",
+    "committed_date": "2025-12-04T09:27:49.000+08:00",
+    "trailers": {},
+    "extended_trailers": {},
+    "web_url": "https://gitlab.nweca.com/android-team/tindahangtapat/tindahangtapat-delivery-app/-/commit/fb5e15a0a5ae1f6f94f4fb312bd953d2a39da6de",
+    "project_name": "tindahangtapat-delivery-app",
+    "project_path": "android-team/tindahangtapat/tindahangtapat-delivery-app",
+    "project_id": "332"
+  },
+  {
+    "id": "f709c845d466fcba9bc758f44437afe3a093c8b6",
+    "short_id": "f709c845",
+    "created_at": "2025-12-03T16:35:16.000+08:00",
+    "parent_ids": [
+      "97ff7d4ed7f12aad5fb6b4cba18c241700ef9257"
+    ],
+    "title": "chore: bump version code to 57",
+    "message": "chore: bump version code to 57\n",
+    "author_name": "raquezha",
+    "author_email": "raquezha@gmail.com",
+    "authored_date": "2025-12-03T16:35:16.000+08:00",
+    "committer_name": "raquezha",
+    "committer_email": "raquezha@gmail.com",
+    "committed_date": "2025-12-03T16:35:16.000+08:00",
+    "trailers": {},
+    "extended_trailers": {},
+    "web_url": "https://gitlab.nweca.com/android-team/tindahangtapat/tindahangtapat-delivery-app/-/commit/f709c845d466fcba9bc758f44437afe3a093c8b6",
+    "project_name": "tindahangtapat-delivery-app",
+    "project_path": "android-team/tindahangtapat/tindahangtapat-delivery-app",
+    "project_id": "332"
+  },
+  {
+    "id": "97ff7d4ed7f12aad5fb6b4cba18c241700ef9257",
+    "short_id": "97ff7d4e",
+    "created_at": "2025-12-03T16:30:48.000+08:00",
+    "parent_ids": [
+      "e44fdcb0c73e67de546fa77b92699ea8568c1c7b",
+      "6b62e992a8ee1f1810951339591df17df9fb359b"
+    ],
+    "title": "Merge branch 'feature/fix-sync-dialog-partial-failures' into 'main'",
+    "message": "Merge branch 'feature/fix-sync-dialog-partial-failures' into 'main'\n\nfeature/fix-sync-dialog-partial-failures\n\nSee merge request android-team/tindahangtapat/tindahangtapat-delivery-app!41",
+    "author_name": "raquezha",
+    "author_email": "jan@nueca.com.ph",
+    "authored_date": "2025-12-03T16:30:48.000+08:00",
+    "committer_name": "raquezha",
+    "committer_email": "jan@nueca.com.ph",
+    "committed_date": "2025-12-03T16:30:48.000+08:00",
+    "trailers": {},
+    "extended_trailers": {},
+    "web_url": "https://gitlab.nweca.com/android-team/tindahangtapat/tindahangtapat-delivery-app/-/commit/97ff7d4ed7f12aad5fb6b4cba18c241700ef9257",
+    "project_name": "tindahangtapat-delivery-app",
+    "project_path": "android-team/tindahangtapat/tindahangtapat-delivery-app",
+    "project_id": "332"
+  },
+  {
+    "id": "6b62e992a8ee1f1810951339591df17df9fb359b",
+    "short_id": "6b62e992",
+    "created_at": "2025-12-03T13:10:10.000+08:00",
+    "parent_ids": [
+      "e2d4794e1ad02a1ccff7183b81bfc8b33861def1"
+    ],
+    "title": "fix: reformat when blocks in OrdersPresenter for readability and update handleSyncError parameter type to ViewStateDialog",
+    "message": "fix: reformat when blocks in OrdersPresenter for readability and update handleSyncError parameter type to ViewStateDialog\n",
+    "author_name": "raquezha",
+    "author_email": "raquezha@gmail.com",
+    "authored_date": "2025-12-03T13:10:10.000+08:00",
+    "committer_name": "raquezha",
+    "committer_email": "raquezha@gmail.com",
+    "committed_date": "2025-12-03T13:10:10.000+08:00",
+    "trailers": {},
+    "extended_trailers": {},
+    "web_url": "https://gitlab.nweca.com/android-team/tindahangtapat/tindahangtapat-delivery-app/-/commit/6b62e992a8ee1f1810951339591df17df9fb359b",
+    "project_name": "tindahangtapat-delivery-app",
+    "project_path": "android-team/tindahangtapat/tindahangtapat-delivery-app",
+    "project_id": "332"
+  },
+  {
+    "id": "e2d4794e1ad02a1ccff7183b81bfc8b33861def1",
+    "short_id": "e2d4794e",
+    "created_at": "2025-12-03T10:54:41.000+08:00",
+    "parent_ids": [
+      "5833a374d0905131ac0f7ffce11f4c660f7c2050"
+    ],
+    "title": "fix(sync): handle partial failures and remove backend workarounds",
+    "message": "fix(sync): handle partial failures and remove backend workarounds\n\n- Add SyncResult to track sync success/failure counts\n- Fix trip ticket only marking as synced when ALL orders succeed\n- Add SyncPartialFailure dialog for user feedback\n- Add comprehensive unit tests (10 tests passing)\n- Restore proper types for imageProof and storeImageRawList\n- Enable saving image_proof and store_images from API\n- Remove all TEMPORARY workaround comments\n- Refactor OrdersPresenter to reduce complexity\n",
+    "author_name": "raquezha",
+    "author_email": "raquezha@gmail.com",
+    "authored_date": "2025-12-03T10:54:41.000+08:00",
+    "committer_name": "raquezha",
+    "committer_email": "raquezha@gmail.com",
+    "committed_date": "2025-12-03T10:54:41.000+08:00",
+    "trailers": {},
+    "extended_trailers": {},
+    "web_url": "https://gitlab.nweca.com/android-team/tindahangtapat/tindahangtapat-delivery-app/-/commit/e2d4794e1ad02a1ccff7183b81bfc8b33861def1",
+    "project_name": "tindahangtapat-delivery-app",
+    "project_path": "android-team/tindahangtapat/tindahangtapat-delivery-app",
+    "project_id": "332"
+  },
+  {
+    "id": "5833a374d0905131ac0f7ffce11f4c660f7c2050",
+    "short_id": "5833a374",
+    "created_at": "2025-12-02T12:00:05.000+08:00",
+    "parent_ids": [
+      "e44fdcb0c73e67de546fa77b92699ea8568c1c7b"
+    ],
+    "title": "Update API endpoints for Rails 8 and add temporary workarounds for backend data issues",
+    "message": "Update API endpoints for Rails 8 and add temporary workarounds for backend data issues\n\n- Update trip ticket endpoints to use new dedicated start/end endpoints\n  - Changed sync_trip_ticket_lines to start_trip_ticket\n  - Changed sync_trip_ticket_lines to end_trip_ticket\n\n- Add temporary workarounds for backend serialization issues:\n  - store_images: Backend returns object instead of array, set to Any? to avoid crashes\n  - image_proof: Backend returns Rails object string instead of image URLs, set to Any? to avoid crashes\n\n- Skip saving corrupted image_proof and store_images from server until backend fixes\n- Disable image proof validation from server data\n\nThese are temporary fixes while cloud team resolves the Rails 8 serialization issues.\n",
+    "author_name": "raquezha",
+    "author_email": "raquezha@gmail.com",
+    "authored_date": "2025-12-02T12:00:05.000+08:00",
+    "committer_name": "raquezha",
+    "committer_email": "raquezha@gmail.com",
+    "committed_date": "2025-12-02T12:00:05.000+08:00",
+    "trailers": {},
+    "extended_trailers": {},
+    "web_url": "https://gitlab.nweca.com/android-team/tindahangtapat/tindahangtapat-delivery-app/-/commit/5833a374d0905131ac0f7ffce11f4c660f7c2050",
+    "project_name": "tindahangtapat-delivery-app",
+    "project_path": "android-team/tindahangtapat/tindahangtapat-delivery-app",
+    "project_id": "332"
+  },
+  {
+    "id": "e44fdcb0c73e67de546fa77b92699ea8568c1c7b",
+    "short_id": "e44fdcb0",
+    "created_at": "2025-12-02T09:27:38.000+08:00",
+    "parent_ids": [
+      "b6e65d61f9c87208eb40a278fe06dc316ee57203",
+      "3c02f7459efa0ced7fc7d9cd05ac68f138b76f6f"
+    ],
+    "title": "Merge branch 'update-base-url' into 'main'",
+    "message": "Merge branch 'update-base-url' into 'main'\n\nupdate-base-url\n\nSee merge request android-team/tindahangtapat/tindahangtapat-delivery-app!40",
+    "author_name": "raquezha",
+    "author_email": "jan@nueca.com.ph",
+    "authored_date": "2025-12-02T09:27:38.000+08:00",
+    "committer_name": "raquezha",
+    "committer_email": "jan@nueca.com.ph",
+    "committed_date": "2025-12-02T09:27:38.000+08:00",
+    "trailers": {},
+    "extended_trailers": {},
+    "web_url": "https://gitlab.nweca.com/android-team/tindahangtapat/tindahangtapat-delivery-app/-/commit/e44fdcb0c73e67de546fa77b92699ea8568c1c7b",
+    "project_name": "tindahangtapat-delivery-app",
+    "project_path": "android-team/tindahangtapat/tindahangtapat-delivery-app",
+    "project_id": "332"
+  },
+  {
+    "id": "3c02f7459efa0ced7fc7d9cd05ac68f138b76f6f",
+    "short_id": "3c02f745",
+    "created_at": "2025-12-02T09:27:37.000+08:00",
+    "parent_ids": [
+      "b6e65d61f9c87208eb40a278fe06dc316ee57203"
+    ],
+    "title": "update-base-url",
+    "message": "update-base-url\n",
+    "author_name": "raquezha",
+    "author_email": "jan@nueca.com.ph",
+    "authored_date": "2025-12-02T09:27:37.000+08:00",
+    "committer_name": "raquezha",
+    "committer_email": "jan@nueca.com.ph",
+    "committed_date": "2025-12-02T09:27:37.000+08:00",
+    "trailers": {},
+    "extended_trailers": {},
+    "web_url": "https://gitlab.nweca.com/android-team/tindahangtapat/tindahangtapat-delivery-app/-/commit/3c02f7459efa0ced7fc7d9cd05ac68f138b76f6f",
+    "project_name": "tindahangtapat-delivery-app",
+    "project_path": "android-team/tindahangtapat/tindahangtapat-delivery-app",
+    "project_id": "332"
+  }
+]
