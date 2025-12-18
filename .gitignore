@@ -5,6 +5,9 @@
 # GitLab OAuth tokens
 .gitlab-mcp-token.json
 
+# Temp files
+*.tmp
+
 # macOS
 .DS_Store
 
